@@ -5,7 +5,7 @@ import svm_train as st
 import re
 model=st.trainSVM(17)
 #create and train SVM model each time coz bug in opencv 3.1.0 svm.load() https://github.com/Itseez/opencv/issues/4969
-cam=0; #int(input("Enter Camera number: "))
+cam=0 #int(input("Enter Camera number: "))
 cap=cv2.VideoCapture(cam)
 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -27,7 +27,7 @@ while(cap.isOpened()):
     skin_ycrcb_min = np.array((0, 138, 67))
     skin_ycrcb_max = np.array((255, 173, 133))
     mask = cv2.inRange(blur, skin_ycrcb_min, skin_ycrcb_max)  # detecting the hand in the bounding box using skin detection
-    contours, hierarchy = cv2.findContours(mask.copy(),cv2.RETR_EXTERNAL, 2)
+    im2, contours, hierarchy = cv2.findContours(mask.copy(),cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     cnt=ut.getMaxContour(contours,4000)                          # using contours to capture the skin filtered image of the hand
     if cnt!=None:
         gesture,label=ut.getGestureImg(cnt,img1,mask,model)   # passing the trained model for prediction and fetching the result
